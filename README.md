@@ -1,29 +1,31 @@
-# PayConf Backend
+# PayConf 2.0 Backend
 
-## Overview
+A secure and scalable RESTful backend for the **PayConf 2.0 Payment Management System**, developed using **Java 21**, **Spring Boot**, and **MySQL**.
 
-PayConf Backend is a RESTful API developed using **Java 21** and **Spring Boot 3** to support the PayConf Payment Management System.
-
-The backend provides secure authentication, user management, payment processing, income and expense management, distribution management, reporting, payment verification, audit logging, and email-based password recovery.
-
-This project follows a layered architecture with Spring Security, JWT authentication, Spring Data JPA, and MySQL for secure and scalable backend development.
-
-> **Note:** The frontend application is maintained as a separate project and consumes the REST APIs exposed by this backend.
+The backend provides REST APIs for authentication, payment management, UTR verification, financial tracking, report generation, audit logging, and role-based access control. It is designed to integrate seamlessly with the React.js frontend.
 
 ---
 
-# Features
+# Project Overview
+
+PayConf 2.0 is a centralized Payment Management System developed to streamline the management of student payments and organizational financial operations.
+
+The backend exposes REST APIs that enable secure authentication, payment verification, income and expense management, report generation, share distribution, and audit logging while maintaining data integrity through role-based authorization.
+
+---
+
+# Key Features
 
 ## Authentication & Security
 
-- JWT Authentication
 - Secure Login
-- Forgot Password via Email
-- BCrypt Password Encryption
-- Profile Management
+- JWT Authentication
+- Role-Based Authorization
+- Password Encryption (BCrypt)
+- Forgot Password (Email Recovery)
 - Spring Security
-- Input Validation
 - Global Exception Handling
+- Input Validation
 
 ---
 
@@ -39,108 +41,130 @@ This project follows a layered architecture with Spring Security, JWT authentica
 
 ## Payment Management
 
-- Create Payment
-- Update Payment
-- Delete Payment
-- View Payment History
-- Payment Status Tracking
+- Import Payment Records
+- View Payment Logs
+- Search Payments
+- Track Payment Status
+- Update Payment Information
+
+---
+
+## UTR Verification
+
+- Verify Payments
+- Reject Payments
+- Update Verification Status
+- Verification Workflow Support
 
 ---
 
 ## Income Management
 
 - Add Income
-- Update Income
+- Edit Income
 - Delete Income
-- Income History
+- Monthly Income Tracking
 
 ---
 
 ## Expense Management
 
-- Add Expense
-- Update Expense
-- Delete Expense
-- Expense History
+- Add Expenses
+- Edit Expenses
+- Delete Expenses
+- Expense Tracking
 
 ---
 
-## Distribution Management
+## Share & Profit Distribution
 
-- Create Distribution
-- Update Distribution
-- Distribution History
-
----
-
-## Dashboard
-
-- Financial Summary APIs
-- Payment Statistics
-- Income Summary
-- Expense Summary
+- Monthly Operational Profit Calculation
+- Employee Salary Adjustment
+- Investment Share Deduction
+- Backup Fund Allocation
+- Founder Share Distribution
 
 ---
 
 ## Reports
 
-- Financial Reports
-- Payment Reports
-- Report Import
-- Report Generation APIs
-
----
-
-## Payment Verification
-
-- Verify Payments
-- Reject Payments
-- Verification History
+- Generate Financial Reports
+- Generate Payment Reports
+- Export Reports
+- Archive Reports
 
 ---
 
 ## Audit Logs
 
 - User Activity Tracking
-- System Audit Logs
+- Financial Activity Logs
+- Verification Logs
+- Report Generation Logs
 
 ---
 
 # Technology Stack
 
-| Category | Technology |
-|-----------|------------|
+| Component | Technology |
+|------------|------------|
 | Language | Java 21 |
-| Framework | Spring Boot 3.5 |
+| Framework | Spring Boot 3.x |
 | Security | Spring Security + JWT |
 | ORM | Spring Data JPA (Hibernate) |
 | Database | MySQL |
 | Validation | Jakarta Validation |
-| Documentation | Swagger / OpenAPI |
 | Build Tool | Maven |
-| Logging | Spring Boot Logging |
-| Monitoring | Spring Boot Actuator |
 | Email | Spring Mail |
-| Testing | JUnit 5, Mockito, MockMvc, JaCoCo |
 
 ---
 
 # System Architecture
 
 ```
-                Client Application
-                       │
-                REST API Requests
-                       │
-              Spring Boot Backend
-                       │
-        Spring Security (JWT Authentication)
-                       │
-                Service Layer
-                       │
-              Repository Layer (JPA)
-                       │
-                  MySQL Database
+                    React Frontend
+                           │
+                    REST API Requests
+                           │
+                 Spring Boot Backend
+                           │
+                 Spring Security (JWT)
+                           │
+                    Service Layer
+                           │
+                  Repository Layer
+                           │
+                       MySQL Database
+```
+
+---
+
+# Backend Modules
+
+```
+Authentication
+│
+├── Login
+├── Forgot Password
+└── User Management
+
+Payments
+│
+├── Payment Records
+├── UTR Verification
+└── Payment Tracking
+
+Finance
+│
+├── Income
+├── Expenses
+└── Share Distribution
+
+Reports
+│
+├── Generate Reports
+├── Existing Reports
+└── Audit Logs
 ```
 
 ---
@@ -160,46 +184,29 @@ src
 │   │       ├── repository
 │   │       ├── security
 │   │       ├── service
-│   │       ├── util
-│   │       └── PayconfBackendApplication.java
+│   │       └── util
 │   │
 │   └── resources
 │       ├── application.properties
 │       └── static
 │
 └── test
-    └── java
 ```
 
 ---
 
 # Prerequisites
 
-Before running the application, ensure the following software is installed:
+Install the following before running the project:
 
 - Java JDK 21
-- Apache Maven 3.9+
+- Apache Maven
 - MySQL Server 8+
 - Git
 
 ---
 
-# Environment Variables
-
-Configure the following environment variables before running the application.
-
-| Variable | Description |
-|----------|-------------|
-| DB_URL | MySQL Database URL |
-| DB_USERNAME | Database Username |
-| DB_PASSWORD | Database Password |
-| JWT_SECRET | Secret Key for JWT Authentication |
-| MAIL_USERNAME | Gmail Address |
-| MAIL_PASSWORD | Gmail App Password |
-
----
-
-# Database Configuration
+# Database Setup
 
 Create a MySQL database.
 
@@ -207,43 +214,49 @@ Create a MySQL database.
 payconf_db
 ```
 
-Update the database credentials in your environment variables or `application.properties`.
+Update your database configuration in:
+
+```
+application.properties
+```
+
+Example:
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/payconf_db
+spring.datasource.username=your_username
+spring.datasource.password=your_password
+```
 
 ---
 
 # Running the Application
 
-## Clone the Repository
+Clone the repository
 
 ```bash
 git clone <repository-url>
 ```
 
----
-
-## Navigate to the Project
+Navigate to the backend
 
 ```bash
 cd payconf-backend
 ```
 
----
-
-## Build the Project
+Build
 
 ```bash
 mvn clean install
 ```
 
----
-
-## Run the Application
+Run
 
 ```bash
 mvn spring-boot:run
 ```
 
-The backend will start on:
+Backend URL
 
 ```
 http://localhost:8080
@@ -251,76 +264,33 @@ http://localhost:8080
 
 ---
 
-# API Documentation
+# Frontend Integration
 
-Swagger UI
+The backend is integrated with an existing React.js frontend.
 
-```
-http://localhost:8080/swagger-ui/index.html
-```
+Communication between frontend and backend is handled using REST APIs for:
 
-OpenAPI Specification
-
-```
-http://localhost:8080/v3/api-docs
-```
-
----
-
-# Monitoring
-
-Spring Boot Actuator endpoints are enabled.
-
-Available endpoints include:
-
-- Health
-- Info
-- Metrics
-
-Example:
-
-```
-http://localhost:8080/actuator/health
-```
+- Authentication
+- Payment Management
+- Income Management
+- Expense Management
+- UTR Verification
+- Share Distribution
+- Report Generation
+- Audit Logs
 
 ---
 
-# Security Features
+# Security
+
+The application includes:
 
 - JWT Authentication
-- Password Encryption using BCrypt
+- Role-Based Authorization
+- BCrypt Password Encryption
 - Spring Security
-- Input Validation
+- Request Validation
 - Exception Handling
-- Environment Variable Configuration
-- Protected REST APIs
-
----
-
-# Testing
-
-The project includes comprehensive backend testing using:
-
-- JUnit 5
-- Mockito
-- MockMvc
-- JaCoCo
-
-Current Test Coverage:
-
-- **Overall Code Coverage: 82%**
-
----
-
-# Logging
-
-Application logging is implemented using Spring Boot Logging.
-
-The project also supports:
-
-- Health Monitoring
-- Metrics
-- Application Information via Actuator
 
 ---
 
@@ -330,42 +300,71 @@ The project also supports:
 |---------|--------|
 | Authentication | ✅ Completed |
 | User Management | ✅ Completed |
-| Payments | ✅ Completed |
-| Income | ✅ Completed |
-| Expenses | ✅ Completed |
-| Distribution | ✅ Completed |
-| Dashboard APIs | ✅ Completed |
-| Reports | ✅ Completed |
+| Payment Management | ✅ Completed |
+| UTR Verification | ✅ Completed |
+| Income Management | ✅ Completed |
+| Expense Management | ✅ Completed |
+| Share Distribution | ✅ Completed |
+| Report Generation | ✅ Completed |
+| Existing Reports | ✅ Completed |
 | Audit Logs | ✅ Completed |
-| Payment Verification | ✅ Completed |
-| Forgot Password (Email) | ✅ Completed |
-| Swagger Documentation | ✅ Completed |
-| Logging | ✅ Completed |
-| Actuator | ✅ Completed |
-| Backend Testing | ✅ Completed |
-| Role-Based Authorization | ⏳ Pending (Business Permission Matrix Required) |
+| Backend Integration | ✅ Completed |
+| Testing | ✅ Completed |
+| Email Notifications | ⏳ Pending SMTP Configuration |
+
+---
+
+# Known Limitations
+
+- SMTP sender email credentials are pending from the organization.
+- Confirmation is pending regarding ADMIN_VIEW permission for payment import.
+- Payment verification history workflow requires business confirmation.
+- Imported payment timestamp behavior requires business confirmation.
+
+---
+
+# Contribution
+
+This backend was developed using Spring Boot and MySQL.
+
+The work included:
+
+- Backend Architecture Design
+- REST API Development
+- Database Integration
+- Spring Security Configuration
+- JWT Authentication
+- Role-Based Authorization
+- Business Logic Implementation
+- Backend Integration with the Existing React Frontend
+- Functional Testing
+- End-to-End Testing
+- Deployment Preparation
 
 ---
 
 # Future Enhancements
 
-- Role-Based Authorization (Permission Matrix)
 - Docker Support
 - CI/CD Pipeline
-- Database Migration using Flyway/Liquibase
+- Cloud Deployment
+- Advanced Dashboard Analytics
+- Automated Database Backup
 - Performance Optimization
-- Production Monitoring
+- Enhanced Notification System
 
 ---
 
 # Version
 
-**Current Version:** 2.0
+**PayConf 2.0 Backend**
+
+**Version:** 1.0 RC1
 
 ---
 
 # License
 
-This backend application has been developed as part of the PayConf Payment Management System for organizational use.
+Developed for the PayConf 2.0 Payment Management System.
 
-Unauthorized copying, modification, or distribution without permission is prohibited.
+This repository is intended for organizational use. Unauthorized copying, modification, or distribution without permission is prohibited.
